@@ -1,47 +1,31 @@
-import json
 import sys
-import time
-import numpy as np
-import pandas as pd
-import matplotlib
-import matplotlib.pyplot as plt
-import seaborn as sns 
-from matplotlib.ticker import FuncFormatter
-import matplotlib.font_manager
-from sklearn.ensemble import RandomForestRegressor
-from pyspark import SparkConf
-from pyspark.sql import SparkSession
+assert sys.version_info >= (3, 5) # make sure we have Python 3.5+
+import json
+from pyspark.sql import SparkSession, functions, types
+import os
 
-
-plt.rcParams['font.sans-serif']=['Arial Unicode MS']
-
-import warnings
-warnings.filterwarnings('ignore')
-
-
-pd.set_option('display.max_columns', None)
-
-PATH = "F:/Code/Python/Jupyter Project/House Prices/Data"
 PATH_project = "D://Amazon metadata//meta_Gift_Cards.json"
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', None)
 
-df_gift_card = pd.DataFrame()
-
-conf = SparkConf()
-conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.0')
-conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.AnonymousAWSCredentialsProvider')
  
-spark = SparkSession.builder.config(conf=conf).getOrCreate()
+spark = SparkSession.builder.config("spark.driver.memory", "4g").appName("Test ETL").getOrCreate()
+assert spark.version >= '3.0' # make sure we have Spark 3.0+
+spark.sparkContext.setLogLevel('WARN')
  
-df = spark.read.csv('s3a://cmpt732-12cobblers/', inferSchema=True)
+ffolder = os.path.split(os.path.abspath(__file__))[0]
+DATA_PATH = os.path.join(ffolder, "testdata")
 
 
-with open(PATH_project) as f:
-    for i in f:
-        dic = json.loads(i)
-        df = pd.DataFrame(list(dic.items()))
-        df = df.T
-        df.columns = df.loc[0]
-        df = df.drop(0)
-        df_gift_card = df_gift_card.append(df, ignore_index = True)
+
+
+
+df = spark.read.json(DATA_PATH)
+
+df.select("asin").show()
+# with open(PATH_project) as f:
+#     for i in f:
+#         dic = json.loads(i)
+#         df = pd.DataFrame(list(dic.items()))
+#         df = df.T
+#         df.columns = df.loc[0]
+#         df = df.drop(0)
+#         df_gift_card = df_gift_card.append(df, ignore_index = True)
