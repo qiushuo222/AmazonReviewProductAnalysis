@@ -30,6 +30,8 @@ fit drop
 imageURL drop
 imageURLHighRes drop
 category drop
+
+aaa
 '''
 
 def jsonload(product_record):
