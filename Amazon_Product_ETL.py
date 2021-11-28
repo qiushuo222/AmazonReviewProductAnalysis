@@ -210,7 +210,6 @@ def main(Product_Path):
     # 955411 data point
     Amazon_Product_DF.write.parquet(ffolder + "/Amazon_Product_Parquet", mode = "overwrite")
 
-
 if __name__ == '__main__':
     sc = SparkContext()
     spark = SparkSession.builder.config("spark.driver.memory", "4g").appName("Product ETL").getOrCreate()
