@@ -52,10 +52,10 @@ def read_data(Path):
 def main(Path):
 
     x_train, y_train, x_test, y_test = read_data(Path)
-    model = svm.SVC(C = 1.0, kernel='rbf', gamma='auto', decision_function_shape='ovr', cache_size=1000, random_state = 1000, max_iter=5000)
+    model = svm.SVC(C = 1.0, kernel='rbf', gamma='auto', decision_function_shape='ovr', cache_size=1000, random_state = 1000, max_iter=1000)
     model.fit(x_train, y_train)
-    print("Train set accuracy" + str(model.score(x_train, y_train)))
-    print("Test set accuracy" + str(model.score(x_test, y_test)))
+    print("Train set accuracy is " + str(model.score(x_train, y_train)))
+    print("Test set accuracy is " + str(model.score(x_test, y_test)))
 
     tn_train, fp_train, fn_train, tp_train = metrics.confusion_matrix(y_train, model.predict(x_train)).ravel()
     tn_val, fp_val, fn_val, tp_val = metrics.confusion_matrix(y_test, model.predict(x_test)).ravel()
