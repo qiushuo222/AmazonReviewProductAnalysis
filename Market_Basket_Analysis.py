@@ -12,6 +12,8 @@ import re
 
 '''
 Market Basket Analysis
+Input ==> Amazon product and review parquet
+Output ==> Support, Confidence, and Lift value for two related products
 '''
 
 def main(Amazon_Product_Review_Path):

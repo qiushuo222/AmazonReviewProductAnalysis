@@ -9,29 +9,26 @@ import datetime
 import re
 
 '''
-asin string reserve
-brand string reserve
-main_cat string reserve
+Input ==> Original product dataset
+Data cleaning, data transformation,
+Output ==> Product info with below schema of structed data
 
-date string, change to datetime
-title, string reserve
-description list, change to string
-details dict get Shipping Weight and UPC code to columns
-also_buy list, change to string
-also_view list, change to string
-rank string, extract rank number and make it long
-feature list??
-price string, extract number and make it long
-similar_item string
-
-tech1 drop
-tech2 drop
-fit drop
-imageURL drop
-imageURLHighRes drop
-category drop
-
-aaa
+Amazon_Product_Schema = types.StructType([
+                        types.StructField("asin", types.StringType()),
+                        types.StructField("brand", types.StringType()),
+                        types.StructField("main_cat", types.StringType()),
+                        types.StructField("date", types.DateType()),
+                        types.StructField("title", types.StringType()),
+                        types.StructField("desc", types.StringType()),
+                        types.StructField("shipping_weight", types.StringType()),
+                        types.StructField("UPC", types.StringType()),
+                        types.StructField("also_buy", types.StringType()),
+                        types.StructField("also_view", types.StringType()),
+                        types.StructField("rank", types.IntegerType()),
+                        types.StructField("feature", types.StringType()),
+                        types.StructField("price", types.FloatType())
+                        #types.StructField("simliar_item", types.StringType())               
+                        ])
 '''
 
 def jsonload(product_record):
@@ -62,7 +59,6 @@ def jsonload(product_record):
         if date == "":
             date = None
         else:
-            date_re = re.compile(r'^([a-zA-Z]+\s\d,\s\d+)$')    
             date_match = date_re.match(date)
             if date_match != None:
                 date = datetime.datetime.strptime(date, '%B %d, %Y') # December 2, 2015
@@ -115,7 +111,6 @@ def jsonload(product_record):
         if rank == []:
             rank = None
         else:
-            rank_re = re.compile(r'\D+([,0-9]+)')
             rank = rank_re.match(",".join(rank))
             if rank != None:
                 rank = rank.group(1)
@@ -128,7 +123,6 @@ def jsonload(product_record):
         if rank == "":
             rank = None
         else:
-            rank_re = re.compile(r'\D+([,0-9]+)')
             rank = rank_re.match(rank)
             if rank != None:
                 rank = rank.group(1)
@@ -151,7 +145,6 @@ def jsonload(product_record):
         if price == "":
             price = None
         else:
-            price_re = re.compile("\D+([\d]+.[\d]+)")
             price = price_re.match(price)
             if price != None:
                 price = price.group(1).replace(",", "")
@@ -217,6 +210,9 @@ if __name__ == '__main__':
     assert spark.version >= '3.0' # make sure we have Spark 3.0+
     spark.sparkContext.setLogLevel('WARN')
 
+    date_re = re.compile(r'^([a-zA-Z]+\s\d,\s\d+)$')
+    rank_re = re.compile(r'\D+([,0-9]+)')
+    price_re = re.compile("\D+([\d]+.[\d]+)")
     ffolder = os.path.split(os.path.abspath(__file__))[0]
     Product_folder = sys.argv[1]
     Product_Path = os.path.join(ffolder, Product_folder)
