@@ -10,6 +10,35 @@ import re
 
 '''
 ETL for Amazon review data and join back to Amazon Product data
+Input ==> Structed data of product information, semi-structed review dataset
+Data cleaning, data transformation
+Output ==> Amazon Product and Review information, structed data with below schema
+Amazon_Product_Review_Schema = types.StructType([
+                                types.StructField("Product_Asin", types.StringType()),
+                                types.StructField("Product_Brand", types.StringType()),
+                                types.StructField("Product_Main_Category", types.StringType()),
+                                types.StructField("Product_Rank", types.IntegerType()),
+                                types.StructField("Product_Date", types.DateType()),
+                                types.StructField("Product_Title", types.StringType()),
+                                types.StructField("Product_Desc", types.StringType()),
+                                types.StructField("Product_Shipping_Weight", types.StringType()),
+                                types.StructField("Product_UPC", types.StringType()),
+                                types.StructField("Product_Also_Buy", types.StringType()),
+                                types.StructField("Product_Also_View", types.StringType()),
+                                types.StructField("Product_Rank", types.StringType()),
+                                types.StructField("Product_Style_Type", types.StringType()),
+                                types.StructField("Product_Style_Value", types.StringType()),
+                                types.StructField("Product_Price", types.FloatType()),
+                                types.StructField("Reviewer_ID", types.StringType()),
+                                types.StructField("Review_Vote", types.IntegerType()),
+                                types.StructField("Reviewer_Name", types.StringType()),
+                                types.StructField("Rate", types.FloatType()),
+                                types.StructField("Review_Post_Date", types.DateType()),
+                                types.StructField("Review_Title", types.StringType()),
+                                types.StructField("Review_Content", types.StringType()),
+                                types.StructField("Product_Purchased", types.IntegerType()),    
+                                ])
+
 '''
 
 def jsonload(review_record):
@@ -150,8 +179,8 @@ def main(Review_Path, Product_Path):
     # Amazon_Product_Review_DF_Count = Amazon_Product_Review_DF1.agg(functions.countDistinct(functions.col("Product_Main_Category"))).collect()[0][0]
     # Amazon_Product_Review_DF1 = Amazon_Product_Review_DF1.repartitionByRange(Amazon_Product_Review_DF_Count, functions.col("Product_Main_Category"))
 
-    Amazon_Product_Review_DF1.write.parquet(ffolder + "/Amazon_Product_Review_Parquet", mode = "append")
-    Amazon_Product_Review_DF1.write.json(ffolder + "/Amazon_Product_Review_Json", mode = "append", compression = "gzip")
+    Amazon_Product_Review_DF1.write.parquet(ffolder + "/data/Amazon_Product_Review_Parquet", mode = "append")
+    Amazon_Product_Review_DF1.write.json(ffolder + "/data/Amazon_Product_Review_Json", mode = "append", compression = "gzip")
 
     '''
     Amazon_Product_Review_Schema = types.StructType([

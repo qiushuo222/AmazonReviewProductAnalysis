@@ -1,1 +1,10 @@
-data/
+Amazon_Product_Review_Json_Part_00000/*
+Amazon_Product_Review_Parquet_Part_00000/*
+Basket_Recommendation/*
+CustomerIfPurchase_Dataset/*
+Amazon_Product_Ori/*
+Amazon_5_Core_Review_Ori/*
+Amazon_Product/*
+Amazon_Product_Parquet/*
+Amazon_5_Core_Review/*
+data/*
