@@ -69,6 +69,6 @@ if __name__ == '__main__':
     ffolder = os.path.abspath("")
     Customer_IfPurchase_Dataset = sys.argv[1]
     
-    Path = os.path.join(ffolder, "CustomerIfPurchase_Dataset", Customer_IfPurchase_Dataset)
+    Path = os.path.join(ffolder, Customer_IfPurchase_Dataset)
 
     main(Path)

@@ -163,6 +163,11 @@ def jsonload(product_record):
 
     return (asin, brand, main_cat, date, title, desc, shipping_weight, UPC, also_buy, also_view, rank, feature, price)#, similar_item)
 
+@functions.udf(returnType=types.StringType())
+def rm_amp(x):
+    x = x.replace("amp;","")
+    return x
+
 def main(Product_Path):
     Amazon_Product_RDD = sc.textFile(Product_Path)
     # rdd.saveAsTextFile("/home/sqa13/home/bigdata/assignment/project/cmpt732/testdata/data/", "org.apache.hadoop.io.compress.GzipCodec")
@@ -199,9 +204,9 @@ def main(Product_Path):
                                                   #& (Amazon_Product_DF["rank"].isNotNull())\
                                                   #& (Amazon_Product_DF["feature"].isNotNull())\
                                                   #& (Amazon_Product_DF["price"].isNotNull())    
-                                                )
+                                                ).withColumn("main_cat", rm_amp(functions.col("main_cat")))
     # 955411 data point
-    Amazon_Product_DF.write.parquet(ffolder + "/Amazon_Product_Parquet", mode = "overwrite")
+    Amazon_Product_DF.write.parquet(ffolder + "/data/Amazon_Product_Parquet", mode = "overwrite")
 
 
 if __name__ == '__main__':

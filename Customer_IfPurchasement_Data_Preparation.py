@@ -89,7 +89,7 @@ def main(Amazon_Product_Review_Path):
     +---------------------+-----------+--------------------+-------------+------------+-------------+-----------+----+-----------------+
     '''
 
-    df_origin.coalesce(1).write.json(os.path.join(ffolder, "CustomerIfPurchase_Dataset"), mode="overwrite")
+    df_origin.coalesce(1).write.json(os.path.join(ffolder, "/data/CustomerIfPurchase_Dataset"), mode="overwrite")
 
 if __name__ == '__main__':
     sc = SparkContext()

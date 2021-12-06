@@ -179,8 +179,8 @@ def main(Review_Path, Product_Path):
     # Amazon_Product_Review_DF_Count = Amazon_Product_Review_DF1.agg(functions.countDistinct(functions.col("Product_Main_Category"))).collect()[0][0]
     # Amazon_Product_Review_DF1 = Amazon_Product_Review_DF1.repartitionByRange(Amazon_Product_Review_DF_Count, functions.col("Product_Main_Category"))
 
-    Amazon_Product_Review_DF1.write.parquet(ffolder + "/Amazon_Product_Review_Parquet", mode = "append")
-    Amazon_Product_Review_DF1.write.json(ffolder + "/Amazon_Product_Review_Json", mode = "append", compression = "gzip")
+    Amazon_Product_Review_DF1.write.parquet(ffolder + "/data/Amazon_Product_Review_Parquet", mode = "append")
+    Amazon_Product_Review_DF1.write.json(ffolder + "/data/Amazon_Product_Review_Json", mode = "append", compression = "gzip")
 
     '''
     Amazon_Product_Review_Schema = types.StructType([

@@ -1,6 +1,5 @@
 import sys
 
-from pandas.core.indexes.api import all_indexes_same
 assert sys.version_info >= (3, 5) # make sure we have Python 3.5+
 import json
 from pyspark.sql import SparkSession, functions, types
@@ -135,7 +134,7 @@ def main(Amazon_Product_Review_Path):
     # 10738 data points
     df_lift = df_confidence_final.select(functions.array(functions.col("A"), functions.col("B")).alias("Product_Recommendation"), functions.col("P(A)").alias("Support_A"), "Confidence_A_B", functions.col("P(A)").alias("Support_B"), "Confidence_B_A", (functions.col("P(AB)") / functions.col("P(A)") / functions.col("P(B)")).alias("Lift"))
 
-    df_lift.repartition(24).write.parquet(ffolder + "/Basket_Recommendation", mode = "overwrite")
+    df_lift.repartition(24).write.parquet(ffolder + "/data/Basket_Recommendation", mode = "overwrite")
     '''
     +------------------------+---------------------+---------------------+---------------------+--------------------+------------------+
     |Product_Recommendation  |Support_A            |Confidence_A_B       |Support_B            |Confidence_B_A      |Lift              |
