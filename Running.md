@@ -4,41 +4,53 @@ Python 3.5+, Spark 3.0+ with hadoop 3.2, Linux system
 <br>
 # 2. Project Code repository
 
+Gitlab link: <br>
 https://csil-git1.cs.surrey.sfu.ca/hza168/cmpt732/-/tree/master
 
+Git Clone to local:
 >\>git clone git@csil-git1.cs.surrey.sfu.ca:hza168/cmpt732.git<br>
 >\>cd cmpt732<br>
 >\>mkdir data<br>
 >\>pwd<br>
 ~/home/bigdata/assignment/project/cmpt732
 
+All below steps in Data Preparation is under assumption that working under local standalone Spark in folder ~/home/bigdata/assignment/project/cmpt732.
+
+However, all of original dataset and intermediate results during ETL are also avaliable on cluster in below folder if want to check manually:
+>\/home/sqa13/cmpt732_project_data/
+
 <br>
 <br>
 
 # 3. Data Preparation
-This preparation of data is going to be a huge workload for Spark and memory consuming, so we have prepared small data set for instructors and TAs for testing purpose of other applications, they are available in testdata folder if you don't want to perform below steps.
+This preparation of data is going to be a huge workload for Spark and memory consuming, so we have prepared small data set for instructors and TAs for testing purpose of next chapter's application, they are available in testdata folder of git repository if you don't want to skip below steps.
+
 <br>
-<br>
+
 ## 1). Data Source
 Download Amazon product metadata (11.5GB) and 5-core Review data (13.6GB) from below link:
 
 >https://nijianmo.github.io/amazon/index.html#complete-data
 
 Put metadata and 5-core Review data into two folders: Amazon_Product_Ori and Amazon_5_Core_Review_Ori
+
+P.S. Both Amazon_Product_Ori and Amazon_5_Core_Review_Ori are also avalable in /home/sqa13/cmpt732_project_data/ on cluster, but they are too big to put into HDFS.
 <br>
 <br>
+
 ## 2). Pre-process for Spark
 
-1. Put two downloaded folder in local file system or HDFS, i.e. in local file system
-
->Path = "~/home/bigdata/assignment/project/cmpt732/data/" <br>
->Product_data_path = Path + "Amazon_Product_Ori"<br>
->Review_data_path = Path + "Amazon_5_Core_Review_Ori"
+1. Put two downloaded folder in local file system:
+>~/home/bigdata/assignment/project/cmpt732/data/Amazon_Product_Ori<br>
+>~/home/bigdata/assignment/project/cmpt732/data/Amazon_5_Core_Review_Ori<br>
 
 <br>
 
 2. Go into pyspark shell (with driver memory 8g if running standalone spark) and input below command:
 ```
+Path = "~/home/bigdata/assignment/project/cmpt732/data/"
+Product_data_path = Path + "Amazon_Product_Ori"
+Review_data_path = Path + "Amazon_5_Core_Review_Ori"
 df = spark.read.json(Product_data_path)
 df = df.repartition(72)
 df.write.json(Path + "Amazon_Product")
@@ -51,6 +63,7 @@ After this step, we got below two folders for Spark:
 > "~/home/bigdata/assignment/project/cmpt732/data/Amazon_Product" <br>
 >"~/home/bigdata/assignment/project/cmpt732/data/Amazon_5_Core_Review"<br>
 
+P.S. Amazon_Product is avalable in /home/sqa13/cmpt732_project_data/ on cluster.
 <br>
 
 3. Divide 5 core review data into 12 batches by input below commands:
@@ -75,7 +88,9 @@ After this step, we got below two folders for Spark:
 > \>mv part-0007[0-1].gz ./12_batch<br>
 
 Due to review data is too huge and during ETL we need join product and review data, we have to deal with part of review data firstly one by one.
-<br>
+
+P.S. Amazon_5_Core_Review is avalable in /home/sqa13/cmpt732_project_data/ on cluster.
+
 <br>
 
 ## 3). Basic ETL
@@ -85,6 +100,8 @@ Due to review data is too huge and during ETL we need join product and review da
 
 
 After this application done, in project folder it will generate a folder named "Amazon_Product_Parquet", and 72 parquet files within it.
+
+P.S. Amazon_Product_Parquet is available in /home/sqa13/cmpt732_project_data/ on cluster. 
 <br>
 <br>
 
@@ -105,6 +122,8 @@ After this application done, in project folder it will generate a folder named "
 > \>spark-submit Amazone_Review_ETL.py ./data/Amazon_5_Core_Review/12_batch Amazon_Product
 
 After these 12 applications done, in project folder they will generate two folders named "Amazon_Product_Review_Parquet" and "Amazon_Product_Review_Json", and each of them have 60 files.
+
+P.S. Amazon_Product_Review_Parquet and Amazon_Product_Review_Json are available in /home/sqa13/cmpt732_project_data/ on cluster.
 <br>
 <br>
 
@@ -115,12 +134,15 @@ After these 12 applications done, in project folder they will generate two folde
 >\>mv ./Amazon_Product_Review_Parquet/part-00000* Amazon_Product_Review_Parquet_Part_00000/<br>
 >\>mv ./Amazon_Product_Review_Json/part-00000* Amazon_Product_Review_Json_Part_00000/
 
-From now on, we have basic data for all other applications in "Amazon_Product_Review_Parquet_Part_00000" and "Amazon_Product_Review_Json_Part_00000/".
+From now on, we have basic data for all other applications in "Amazon_Product_Review_Parquet_Part_00000" and "Amazon_Product_Review_Json_Part_00000".
+
+P.S. Both Amazon_Product_Review_Parquet_Part_00000 and Amazon_Product_Review_Json_Part_00000 are available in /home/sqa13/cmpt732_project_data/ on cluster.
+
 <br>
 <br>
 
 # 4. Running applications
-<br>
+
 
 ## 1). Market basket recommendation
 >\>cd ~/home/bigdata/assignment/project/cmpt732/<br>
@@ -138,7 +160,7 @@ It will create a folder named "Basket_Recommendation" in folder data/ and popula
 OR
 >\>spark-submit Customer_IfPurchasement_Data_Preparation.py ./testdata/Amazon_Product_Review_Parquet_Part_00000
 
-It will create a folder named "CustomerIfPurchase_Dataset" in folder data/, and one json file in it, use it to replace below JSON_FILE_NAME.
+It will create a folder named "CustomerIfPurchase_Dataset" in folder data/, and one json file in it, use json file name to replace below JSON_FILE_NAME.
 
 >\>python3 Customer_IfPurchasement.py ./data/CustomerIfPurchase_Dataset/JSON_FILE_NAME
 
