@@ -63,7 +63,7 @@ def main(Path):
     print("Train positive correct number is {}, train positive wrong number is {}.\n Train negative correct number is {}, train negative wrong number is {}".format(tp_train, fp_train, tn_train, fn_train))
     print("Test positive correct number is {}, test positive wrong number is {}.\n Test negative correct number is {}, test negative wrong number is {}".format(tp_val, fp_val, tn_val, fn_val))
 
-    _ = joblib.dump(model, os.path.join(ffolder, "Customer_IfPurchasement_SVM_Model"))
+    _ = joblib.dump(model, ffolder + "/data/Customer_IfPurchasement_SVM_Model")
 
 if __name__ == '__main__':
     ffolder = os.path.abspath("")
