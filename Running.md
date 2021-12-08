@@ -23,7 +23,7 @@ However, all of original dataset and intermediate results during ETL are also av
 <br>
 
 # 3. Data Preparation
-This preparation of data is going to be a huge workload for Spark and memory consuming, so we have prepared small data set for instructors and TAs for testing purpose of next chapter's application, they are available in testdata folder of git repository if you don't want to skip below steps.
+This preparation of data is going to be a huge workload for Spark and memory consuming, so we have prepared small data set for instructors and TAs for testing purpose of next chapter's application, they are available in testdata folder of git repository if you want to skip below steps. Meanwhile, all of intermediate and result are also available in /home/sqa13/cmpt732_project_data/ on cluster.
 
 <br>
 
