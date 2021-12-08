@@ -15,7 +15,7 @@ Input ==> Amazon product and review parquet
 Output ==> Support, Confidence, and Lift value for two related products
 '''
 
-def main(Amazon_Product_Review_Path):
+def main(Amazon_Product_Review_Path, Output_Path):
     
     df_origin = spark.read.parquet(Amazon_Product_Review_Path)
     
@@ -134,7 +134,7 @@ def main(Amazon_Product_Review_Path):
     # 10738 data points
     df_lift = df_confidence_final.select(functions.array(functions.col("A"), functions.col("B")).alias("Product_Recommendation"), functions.col("P(A)").alias("Support_A"), "Confidence_A_B", functions.col("P(A)").alias("Support_B"), "Confidence_B_A", (functions.col("P(AB)") / functions.col("P(A)") / functions.col("P(B)")).alias("Lift"))
 
-    df_lift.repartition(24).write.parquet(ffolder + "/data/Basket_Recommendation", mode = "overwrite")
+    df_lift.repartition(24).write.parquet(Output_Path, mode = "overwrite")
     '''
     +------------------------+---------------------+---------------------+---------------------+--------------------+------------------+
     |Product_Recommendation  |Support_A            |Confidence_A_B       |Support_B            |Confidence_B_A      |Lift              |
@@ -159,8 +159,8 @@ if __name__ == '__main__':
     assert spark.version >= '3.0' # make sure we have Spark 3.0+
     spark.sparkContext.setLogLevel('WARN')
 
-    ffolder = os.path.split(os.path.abspath(__file__))[0]
     Amazon_Product_Review_folder = sys.argv[1]
-    Amazon_Product_Review_Path = os.path.join(ffolder, Amazon_Product_Review_folder)
-    main(Amazon_Product_Review_Path)
+    Output_Path = sys.argv[2]
+    Amazon_Product_Review_Path = Amazon_Product_Review_folder
+    main(Amazon_Product_Review_Path, Output_Path)
 

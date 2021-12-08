@@ -168,8 +168,8 @@ def rm_amp(x):
     x = x.replace("amp;","")
     return x
 
-def main(Product_Path):
-    Amazon_Product_RDD = sc.textFile(Product_Path)
+def main(Product_folder, Output_folder):
+    Amazon_Product_RDD = sc.textFile(Product_folder)
     # rdd.saveAsTextFile("/home/sqa13/home/bigdata/assignment/project/cmpt732/testdata/data/", "org.apache.hadoop.io.compress.GzipCodec")
     Amazon_Product_RDD = Amazon_Product_RDD.map(jsonload)
 
@@ -206,7 +206,7 @@ def main(Product_Path):
                                                   #& (Amazon_Product_DF["price"].isNotNull())    
                                                 ).withColumn("main_cat", rm_amp(functions.col("main_cat")))
     # 955411 data point
-    Amazon_Product_DF.write.parquet(ffolder + "/data/Amazon_Product_Parquet", mode = "overwrite")
+    Amazon_Product_DF.write.parquet(Output_folder, mode = "overwrite")
 
 
 if __name__ == '__main__':
@@ -218,8 +218,9 @@ if __name__ == '__main__':
     date_re = re.compile(r'^([a-zA-Z]+\s\d,\s\d+)$')
     rank_re = re.compile(r'\D+([,0-9]+)')
     price_re = re.compile("\D+([\d]+.[\d]+)")
-    ffolder = os.path.split(os.path.abspath(__file__))[0]
+    # ffolder = os.path.split(os.path.abspath(__file__))[0]
     Product_folder = sys.argv[1]
-    Product_Path = os.path.join(ffolder, Product_folder)
-    main(Product_Path)
+    Output_folder = sys.argv[2]
+    # Product_Path = os.path.join(ffolder, Product_folder)
+    main(Product_folder, Output_folder)
 

@@ -1,6 +1,7 @@
 import sys
 
 from pandas.core.indexes.api import all_indexes_same
+
 assert sys.version_info >= (3, 5) # make sure we have Python 3.5+
 import json
 from pyspark.sql import SparkSession, types
@@ -31,7 +32,7 @@ def sub_one(x):
     
     return x
 
-def main(Amazon_Product_Review_Path):
+def main(Amazon_Product_Review_Path, Output_Path):
     
     ## Get basic features prepared
     df_origin = spark.read.parquet(Amazon_Product_Review_Path) # df_origin = spark.read.parquet("/home/sqa13/home/bigdata/assignment/project/cmpt732/Amazon_Product_Review_Parquet_Part_00000")
@@ -89,7 +90,7 @@ def main(Amazon_Product_Review_Path):
     +---------------------+-----------+--------------------+-------------+------------+-------------+-----------+----+-----------------+
     '''
 
-    df_origin.coalesce(1).write.json(ffolder + "/data/CustomerIfPurchase_Dataset", mode="overwrite")
+    df_origin.coalesce(1).write.json(Output_Path, mode="overwrite")
 
 if __name__ == '__main__':
     sc = SparkContext()
@@ -97,8 +98,9 @@ if __name__ == '__main__':
     assert spark.version >= '3.0' # make sure we have Spark 3.0+
     spark.sparkContext.setLogLevel('WARN')
 
-    ffolder = os.path.abspath("")
     Amazon_Product_Review_folder = sys.argv[1]
-    Amazon_Product_Review_Path = os.path.join(ffolder, Amazon_Product_Review_folder)
-    main(Amazon_Product_Review_Path)
+    Output_Path = sys.argv[2]
+    Amazon_Product_Review_Path = Amazon_Product_Review_folder
+
+    main(Amazon_Product_Review_Path, Output_Path)
 

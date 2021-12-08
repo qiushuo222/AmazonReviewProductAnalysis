@@ -23,7 +23,7 @@ However, all of original dataset and intermediate results during ETL are also av
 <br>
 
 # 3. Data Preparation
-This preparation of data is going to be a huge workload for Spark and memory consuming, so we have prepared small data set for instructors and TAs for testing purpose of next chapter's application, they are available in testdata folder of git repository if you want to skip below steps. Meanwhile, all of intermediate and result are also available in /home/sqa13/cmpt732_project_data/ on cluster.
+This preparation of data is going to be a huge workload for Spark and memory consuming, so we have prepared small data set for instructors and TAs for testing purpose of next chapter's application, they are available in testdata folder of git repository if you want to skip this tep. Meanwhile, all of intermediate and result are also available in /home/sqa13/cmpt732_project_data/ on cluster.
 
 <br>
 
@@ -99,10 +99,10 @@ P.S. Amazon_5_Core_Review is avalable in /home/sqa13/cmpt732_project_data/ on cl
 ## 3). Basic ETL
 1. Cleaning, Transformation, Load for Amazon product data (Consider increase driver or executor memory when execute spark-submit)
 > \>cd ~/home/bigdata/assignment/project/cmpt732/<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Product_ETL.py ./data/Amazon_Product
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Product_ETL.py ./data/Amazon_Product ./data/Amazon_Product_Parquet
 
 
-After this application done, in project folder it will generate a folder named "Amazon_Product_Parquet", and 72 parquet files within it.
+After this application done, in data folder it will generate a folder named "Amazon_Product_Parquet", and 72 parquet files within it.
 
 P.S. Amazon_Product_Parquet is available in /home/sqa13/cmpt732_project_data/ on cluster. 
 <br>
@@ -111,18 +111,18 @@ P.S. Amazon_Product_Parquet is available in /home/sqa13/cmpt732_project_data/ on
 2. Cleaning, Transformation, Load for Amazon review data, plus combine product and review information together<br>
 
 > \>cd ~/home/bigdata/assignment/project/cmpt732/<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/1_batch ./data/Amazon_Product_Parquet<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/2_batch ./data/Amazon_Product_Parquet<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/3_batch ./data/Amazon_Product_Parquet<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/4_batch ./data/Amazon_Product_Parquet<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/5_batch ./data/Amazon_Product_Parquet<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/6_batch ./data/Amazon_Product_Parquet<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/7_batch ./data/Amazon_Product_Parquet<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/8_batch ./data/Amazon_Product_Parquet<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/9_batch ./data/Amazon_Product_Parquet<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/10_batch ./data/Amazon_Product_Parquet<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/11_batch ./data/Amazon_Product_Parquet<br>
-> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/12_batch ./data/Amazon_Product_Parquet
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/1_batch ./data/Amazon_Product_Parquet ./data/<br>
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/2_batch ./data/Amazon_Product_Parquet ./data/<br>
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/3_batch ./data/Amazon_Product_Parquet ./data/<br>
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/4_batch ./data/Amazon_Product_Parquet ./data/<br>
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/5_batch ./data/Amazon_Product_Parquet ./data/<br>
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/6_batch ./data/Amazon_Product_Parquet ./data/<br>
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/7_batch ./data/Amazon_Product_Parquet ./data/<br>
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/8_batch ./data/Amazon_Product_Parquet ./data/<br>
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/9_batch ./data/Amazon_Product_Parquet ./data/<br>
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/10_batch ./data/Amazon_Product_Parquet ./data/<br>
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/11_batch ./data/Amazon_Product_Parquet ./data/<br>
+> \>spark-submit --conf spark.driver.memory=2g Amazon_Review_ETL.py ./data/Amazon_5_Core_Review/12_batch ./data/Amazon_Product_Parquet ./data/
 
 After these 12 applications done, in data folder they will generate two folders named "Amazon_Product_Review_Parquet" and "Amazon_Product_Review_Json", and each of them have 60 files.
 
@@ -149,26 +149,26 @@ P.S. Both Amazon_Product_Review_Parquet_Part_00000 and Amazon_Product_Review_Jso
 
 ## 1). Market basket recommendation
 >\>cd ~/home/bigdata/assignment/project/cmpt732/<br>
->\>spark-submit Market_Basket_Analysis.py ./data/Amazon_Product_Review_Parquet_Part_00000
+>\>spark-submit --conf spark.driver.memory=2g Market_Basket_Analysis.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/Basket_Recommendation
 
 OR for Instructors or TAs testing
->\>spark-submit Market_Basket_Analysis.py ./testdata/Amazon_Product_Review_Parquet_Part_00000
+>\>spark-submit Market_Basket_Analysis.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/Basket_Recommendation
 
-It will create a folder named "Basket_Recommendation" in folder data/ and populate 24 parquet files in it. This include a table with product A and product B and Support/Confidence/Lift for them.
+It will create a folder named "Basket_Recommendation" in folder testdata and populate 24 parquet files in it. This include a table with product A and product B and Support/Confidence/Lift for them.
 
 P.S. The Basket_Recommendation is available in /home/sqa13/cmpt732_project_data/ on cluster.
 
 ## 2). Predict whether a customer will purchase a good
 >\>cd ~/home/bigdata/assignment/project/cmpt732/<br>
->\>spark-submit Customer_IfPurchasement_Data_Preparation.py ./data/Amazon_Product_Review_Parquet_Part_00000
+>\>spark-submit Customer_IfPurchasement_Data_Preparation.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/CustomerIfPurchase_Dataset
 
 OR for Instructors or TAs testing
->\>spark-submit Customer_IfPurchasement_Data_Preparation.py ./testdata/Amazon_Product_Review_Parquet_Part_00000
+>\>spark-submit Customer_IfPurchasement_Data_Preparation.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/CustomerIfPurchase_Dataset
 
-It will create a folder named "CustomerIfPurchase_Dataset" in folder data/, and one json file in it, use json file name to replace below JSON_FILE_NAME.
+It will create a folder named "CustomerIfPurchase_Dataset" in folder testdata, and one json file in it, use json file name to replace below JSON_FILE_NAME.
 
->\>python3 Customer_IfPurchasement.py ./data/CustomerIfPurchase_Dataset/JSON_FILE_NAME
+>\>python3 Customer_IfPurchasement.py ./testdata/CustomerIfPurchase_Dataset/JSON_FILE_NAME ./testdata/Customer_IfPurchasement_SVM_Model
 
-It will populate a SVM model stored in folder data, this can be loaded for other needs.
+It will populate a SVM model stored in folder testdata, this can be loaded for other needs.
 
 P.S. The CustomerIfPurchase_Dataset and trained model file is available in /home/sqa13/cmpt732_project_data/ on cluster.

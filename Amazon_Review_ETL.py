@@ -113,7 +113,7 @@ def jsonload(review_record):
 
     return (reviewerID, asin, vote, reviewerName, overall, time_stamp, summary, reviewtext, style_type, style_value, verified)
 
-def main(Review_Path, Product_Path):
+def main(Review_Path, Product_Path, Output_folder):
     Amazon_Review_RDD = sc.textFile(Review_Path)
     # rdd.saveAsTextFile("/home/sqa13/home/bigdata/assignment/project/cmpt732/testdata/data/", "org.apache.hadoop.io.compress.GzipCodec")
     Amazon_Review_RDD = Amazon_Review_RDD.map(jsonload)
@@ -179,8 +179,8 @@ def main(Review_Path, Product_Path):
     # Amazon_Product_Review_DF_Count = Amazon_Product_Review_DF1.agg(functions.countDistinct(functions.col("Product_Main_Category"))).collect()[0][0]
     # Amazon_Product_Review_DF1 = Amazon_Product_Review_DF1.repartitionByRange(Amazon_Product_Review_DF_Count, functions.col("Product_Main_Category"))
 
-    Amazon_Product_Review_DF1.write.parquet(ffolder + "/data/Amazon_Product_Review_Parquet", mode = "append")
-    Amazon_Product_Review_DF1.write.json(ffolder + "/data/Amazon_Product_Review_Json", mode = "append", compression = "gzip")
+    Amazon_Product_Review_DF1.write.parquet(Output_folder + "Amazon_Product_Review_Parquet", mode = "append")
+    Amazon_Product_Review_DF1.write.json(Output_folder + "Amazon_Product_Review_Json", mode = "append", compression = "gzip")
 
     '''
     Amazon_Product_Review_Schema = types.StructType([
@@ -215,10 +215,11 @@ if __name__ == '__main__':
     assert spark.version >= '3.0' # make sure we have Spark 3.0+
     spark.sparkContext.setLogLevel('WARN')
 
-    ffolder = os.path.split(os.path.abspath(__file__))[0]
+    # ffolder = os.path.split(os.path.abspath(__file__))[0]
     Review_folder = sys.argv[1]
     Product_folder = sys.argv[2]
-    Review_Path = os.path.join(ffolder, Review_folder)
-    Product_Path = os.path.join(ffolder, Product_folder)
-    main(Review_Path, Product_Path)
+    Output_folder = sys.argv[3]
+    Review_Path = Review_folder
+    Product_Path = Product_folder
+    main(Review_Path, Product_Path, Output_folder)
 
