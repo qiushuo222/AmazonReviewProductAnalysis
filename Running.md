@@ -191,7 +191,7 @@ OR for Instructors or TAs testing
 
 It will appied the trained model to predict which category the product belong to based on its title, description, and brand. The predicting of the data will be printed out in the terminal.
 
-P.S. The plot "Amount of products bar.png", "Amount of views bar.png", "Popularity of products pie.png", and "Popularity of views pie.png" trained model file is available in /home/sqa13/cmpt732_project_data/ on cluster.
+P.S. The trained model file is available in /home/sqa13/cmpt732_project_data/ on cluster.
 
 ## 6). Views Amount Analysis
 
@@ -202,6 +202,8 @@ OR for Instructors or TAs testing
 > \>spark-submit Views_Count_Plot.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
 It will create plots named "Popularity of views pie", "Amount of views bar", "Popularity of products pie", and "Amount of products bar" in folder testdata shows the views amount in each category.
+
+P.S. The plot "Amount of products bar.png", "Amount of views bar.png", "Popularity of products pie.png", and "Popularity of views pie.png" are available in /home/sqa13/cmpt732_project_data/ on cluster.
 
 ## 7). Sales per Months Analysis
 
