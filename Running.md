@@ -153,7 +153,7 @@ OR for Instructors or TAs testing
 
 It will create a new pie chart plot named Seasonal_Analysis_Pie_Chart in folder testdata shows the market share of each category in four seasons. Also, the training result of the model will be printed out in the terminal.
 
-## 4). Predict whether a customer will purchase a good
+## 4). Repurchase Rate Analysis
 
 > \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit RePurchase_Analysis.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
