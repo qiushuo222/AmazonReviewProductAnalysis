@@ -159,6 +159,8 @@ To use the model for testing purpose, run:
 
 The prediction result will be shown in the terminal.
 
+P.S. The plot Seasonal_Analysis_Pie_Chart.png and trained model Category_Prediction_Model can be found at /home/sqa13/cmpt732_project_data/
+
 ## 4). Repurchase Rate Analysis
 
 > \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit RePurchase_Analysis.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
@@ -168,6 +170,8 @@ OR for Instructors or TAs testing
 > \>spark-submit RePurchase_Analysis.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
 It will create a plot named Repurchase_Rate in folder testdata shows the repurchase rate in each category.
+
+P.S. The plot Repurchase_Rate.png can be found at /home/sqa13/cmpt732_project_data/
 
 ## 5). Product Category Prediction
 
@@ -179,11 +183,11 @@ OR for Instructors or TAs testing
 
 It will train a model to predict which category the product belong to based on its title, description, and brand. The training result of the model will be printed out in the terminal.
 
-> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=2g Category_Prediction.py ./testdata/category_prediction ./testdata/Amazon_Product_Review_Parquet_Part_00000 
+> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=2g Category_Prediction.py ./testdata/category_prediction ./testdata/Amazon_Product_Review_Parquet_Part_00000
 
 OR for Instructors or TAs testing
 
-> \>spark-submit Category_Prediction.py ./testdata/category_prediction ./testdata/Amazon_Product_Review_Parquet_Part_00000 
+> \>spark-submit Category_Prediction.py ./testdata/category_prediction ./testdata/Amazon_Product_Review_Parquet_Part_00000
 
 It will appied the trained model to predict which category the product belong to based on its title, description, and brand. The predicting of the data will be printed out in the terminal.
 
