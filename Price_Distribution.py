@@ -61,18 +61,18 @@ def main(inputs, output):
     '''
     ## boxplot
     home_prices = np.array(data_no_null.select('Product_Price').collect()).reshape(-1)
-    # plt.figure()
+    plt.figure()
     plt.boxplot(home_prices)
     plt.title('Price Distribution for Amazon Home Category')
     plt.savefig(output + 'price_boxplot.png')
     plt.show()
 
     ## boxplot w/o outliers
-    # plt.figure()
+    plt.figure()
     plt.boxplot(home_prices, showfliers=False)
     plt.title('Price Distribution for Amazon Home Category (without Outliers)')
     plt.savefig(output + 'price_boxplot_no_outliers.png')
-    plt.show()
+    # plt.show()
 
     # home = data_no_null.groupBy('Product_Brand').count().orderBy('count', ascending=False) 
     h_counts = data_no_null.groupBy('Product_Brand').count().orderBy('Product_Brand') 
@@ -86,7 +86,7 @@ def main(inputs, output):
     top = avgprice_count.filter(avgprice_count['sales_count'] > 1000)
     top_count = top.count()  # 30 top sales brands
     print('Top sold brands & average prices in Amazon Home category:')
-    top.show()
+    # top.show()
     '''
     +--------------------+-----------+-------------+                                
     |       Product_Brand|sales_count|average_price|
@@ -110,7 +110,7 @@ def main(inputs, output):
     
     '''
     ## avg_price scatter plot for top brands in "Amazon Home"
-    # plt.figure()
+    plt.figure()
     x=np.arange(top_count)
     avgprices = np.array(top.select('average_price').collect()).reshape(-1)
     top_brands = np.array(top.select('Product_Brand').collect()).reshape(-1)
@@ -125,7 +125,7 @@ def main(inputs, output):
     for i, brand in enumerate(top_brands[:5]):  # add annotation
         plt.annotate(brand, (x[i], avgprices[i]), fontsize=8)
     plt.savefig(output + 'avg_price_distribution_Home.png')
-    plt.show()
+    # plt.show()
         
 
 
