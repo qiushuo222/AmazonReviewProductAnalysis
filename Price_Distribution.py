@@ -47,7 +47,7 @@ def main(inputs, output):
     ## a giplise of 'Amazon Home' data
     prices_pd = data_no_null.select('Product_Price').toPandas()
     print('Price distribution of products in Amazon Home category: ')
-    prices_pd.describe()
+    print(prices_pd.describe())
     '''
     Product_Price
     count  208011.000000
@@ -65,7 +65,7 @@ def main(inputs, output):
     plt.boxplot(home_prices)
     plt.title('Price Distribution for Amazon Home Category')
     plt.savefig(output + 'price_boxplot.png')
-    plt.show()
+    # plt.show()
 
     ## boxplot w/o outliers
     plt.figure()
@@ -86,7 +86,7 @@ def main(inputs, output):
     top = avgprice_count.filter(avgprice_count['sales_count'] > 1000)
     top_count = top.count()  # 30 top sales brands
     print('Top sold brands & average prices in Amazon Home category:')
-    # top.show()
+    top.show()
     '''
     +--------------------+-----------+-------------+                                
     |       Product_Brand|sales_count|average_price|
