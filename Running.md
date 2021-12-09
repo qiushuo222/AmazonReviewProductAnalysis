@@ -191,3 +191,33 @@ OR for Instructors or TAs testing
 > \>spark-submit Views_Count_Plot.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
 It will create plots named "Popularity of views pie", "Amount of views bar", "Popularity of products pie", and "Amount of products bar" in folder testdata shows the views amount in each category.
+
+## 7). Sales per Months Analysis 
+
+> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=3g Sales_Months_Analysis.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+
+OR for Instructors or TAs testing
+
+> \>spark-submit --conf spark.driver.memory=3g Sales_Months_Analysis.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+
+It will create five bar charts, namely "sales_month_Amazon_Devices.png", "sales_month_Amazon_Home.png", "sales_month_Computers.png", "sales_month_Grocery.png", and "sales_month_Sports_Outdoors.png" in folder testdata.
+
+## 8). Price Distribution Analysis
+
+> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit Price_Distribution.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+
+OR for Instructors or TAs testing
+
+> \>spark-submit Price_Distribution.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+
+It will create two boxplots and one scatter plots, namely "price_boxplot.png", "price_boxplot_no_outliers.png", and "avg_price_distribution_Home.png" in folder testdata.
+
+## 9).  Review Analysis
+
+> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit Review_Analysis.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+
+OR for Instructors or TAs testing
+
+> \>spark-submit Review_Analysis.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+
+It will generate a wordcloud plot named "wordcloud.png" in the testdata folder.
