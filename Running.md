@@ -162,3 +162,24 @@ OR for Instructors or TAs testing
 > \>spark-submit RePurchase_Analysis.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
 It will create a plot named Repurchase_Rate in folder testdata shows the repurchase rate in each category.
+
+
+## 5). Product Category Prediction
+
+> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=2g Category_Prediction.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+
+OR for Instructors or TAs testing
+
+> \>spark-submit Category_Prediction.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+
+It will train a model to predict which category the product belong to based on its title, description, and brand. The training result of the model will be printed out in the terminal.
+
+## 6). Views Amount Analysis
+
+> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit Views_Count_Plot.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+
+OR for Instructors or TAs testing
+
+> \>spark-submit Views_Count_Plot.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+
+It will create plots named "Popularity of views pie", "Amount of views bar", "Popularity of products pie", and "Amount of products bar" in folder testdata shows the views amount in each category.
