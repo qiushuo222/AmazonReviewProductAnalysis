@@ -151,7 +151,13 @@ OR for Instructors or TAs testing
 
 > \>spark-submit Category_Seasonal_Analysis.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
-It will create a new pie chart plot named Seasonal_Analysis_Pie_Chart in folder testdata shows the market share of each category in four seasons. Also, the training result of the model will be printed out in the terminal.
+It will create a new pie chart plot named Seasonal_Analysis_Pie_Chart in folder testdata shows the market share of each category in four seasons. The trained model will also be saved to ./testdata/ folder with name Category_Prediction_Model. Also, the training result of the model will be printed out in the terminal.
+
+To use the model for testing purpose, run:
+
+> \>spark-submit Category_Seasonal_Prediction.py ./testdata/Category_Prediction_Model ./testdata/Amazon_Product_Review_Parquet_Part_00000
+
+The prediction result will be shown in the terminal.
 
 ## 4). Repurchase Rate Analysis
 
@@ -162,7 +168,6 @@ OR for Instructors or TAs testing
 > \>spark-submit RePurchase_Analysis.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
 It will create a plot named Repurchase_Rate in folder testdata shows the repurchase rate in each category.
-
 
 ## 5). Product Category Prediction
 
@@ -184,7 +189,7 @@ OR for Instructors or TAs testing
 
 It will create plots named "Popularity of views pie", "Amount of views bar", "Popularity of products pie", and "Amount of products bar" in folder testdata shows the views amount in each category.
 
-## 7). Sales per Months Analysis 
+## 7). Sales per Months Analysis
 
 > \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=3g Sales_Months_Analysis.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
@@ -204,7 +209,7 @@ OR for Instructors or TAs testing
 
 It will create two boxplots and one scatter plots, namely "price_boxplot.png", "price_boxplot_no_outliers.png", and "avg_price_distribution_Home.png" in folder testdata.
 
-## 9).  Review Analysis
+## 9). Review Analysis
 
 > \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit Review_Analysis.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
