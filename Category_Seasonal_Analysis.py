@@ -19,7 +19,7 @@ def main(input, output):
     Amazon_Product_DF = spark.read.parquet(inputs)
 
     Amazon_Product_DF = Amazon_Product_DF.select(
-        "*").where((functions.year(Amazon_Product_DF.Review_Post_Date) >= 2016) & (Amazon_Product_DF.Product_Price.isNotNull())).cache()
+        "*").where((functions.year(Amazon_Product_DF.Review_Post_Date) >= 2010) & (Amazon_Product_DF.Product_Price.isNotNull())).cache()
 
     # Category Seasonal Analysis
 
