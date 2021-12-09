@@ -80,7 +80,7 @@ def main(input, output):
 
     iter = 100
     maxDepth = 5
-    model_output_folder = "project_output"
+    model_output_folder = output
 
     train, validation = seasonal_product_count.randomSplit([0.75, 0.25])
     train = train.cache()
@@ -105,7 +105,7 @@ def main(input, output):
 
     # ==============================================================================Save the model
     sales_count_model.write().overwrite().save(
-        model_output_folder + "Category_Prediction_Model")
+        model_output_folder + "Seasonal_Sales_Prediction_Model")
 
     prediction_dataset = sales_count_model.transform(train)
     prediction_dataset.show(n=2)
