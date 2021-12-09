@@ -19,7 +19,7 @@ def rm_amp(x):
     x = x.replace("amp;", "")
     return x
 
-def main(inputs):
+def main(inputs, outputs):
     Amazon_Product_Review_Schema = types.StructType([
                                     types.StructField("Product_Asin", types.StringType()),
                                     types.StructField("Product_Brand", types.StringType()),
@@ -69,12 +69,12 @@ def main(inputs):
     plot = data_count.plot(kind='pie', y = "count", figsize=(20,10), autopct='%1.1f%%')
     plt.legend(loc="center left", bbox_to_anchor=(1.2, 0.5))
     plt.title("Popularity of Views Group By Main Categories")
-    plt.savefig("Popularity of views pie")
+    plt.savefig(outputs + "Popularity of views pie")
 
     plot = data_count.plot(kind='bar', y = "count", figsize=(20,10))
     plt.subplots_adjust(bottom=0.3)
     plt.title("Amount of Views Group By Main Categories")
-    plt.savefig("Amount of views bar")
+    plt.savefig(outputs + "Amount of views bar")
 
 
     # drop duplicate data
@@ -90,18 +90,19 @@ def main(inputs):
     plot = data_count.plot(kind='pie', y = "count", figsize=(20,10), autopct='%1.1f%%')
     plt.legend(loc="center left", bbox_to_anchor=(1.2, 0.5))
     plt.title("Popularity of products with views group by Main Categories")
-    plt.savefig("Popularity of products pie")
+    plt.savefig(outputs + "Popularity of products pie")
 
     plot = data_count.plot(kind='bar', y = "count", figsize=(20,10))
     plt.subplots_adjust(bottom=0.3)
     plt.title("Amount of products with views Group By Main Categories")
-    plt.savefig("Amount of products bar")
+    plt.savefig(outputs + "Amount of products bar")
 
 
 if __name__ == '__main__':
     inputs = sys.argv[1]
+    outputs = sys.argv[2]
     spark = SparkSession.builder.appName('views count plot').getOrCreate()
     assert spark.version >= '3.0' # make sure we have Spark 3.0+
     spark.sparkContext.setLogLevel('WARN')
     sc = spark.sparkContext
-    main(inputs)
+    main(inputs, outputs)
