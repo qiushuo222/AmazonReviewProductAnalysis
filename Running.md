@@ -171,13 +171,21 @@ It will create a plot named Repurchase_Rate in folder testdata shows the repurch
 
 ## 5). Product Category Prediction
 
-> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=2g Category_Prediction.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=2g Category_Prediction_Train.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/category_prediction
 
 OR for Instructors or TAs testing
 
-> \>spark-submit Category_Prediction.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+> \>spark-submit Category_Prediction_Train.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/category_prediction
 
 It will train a model to predict which category the product belong to based on its title, description, and brand. The training result of the model will be printed out in the terminal.
+
+> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=2g Category_Prediction.py ./testdata/category_prediction ./testdata/Amazon_Product_Review_Parquet_Part_00000 
+
+OR for Instructors or TAs testing
+
+> \>spark-submit Category_Prediction.py ./testdata/category_prediction ./testdata/Amazon_Product_Review_Parquet_Part_00000 
+
+It will appied the trained model to predict which category the product belong to based on its title, description, and brand. The predicting of the data will be printed out in the terminal.
 
 ## 6). Views Amount Analysis
 

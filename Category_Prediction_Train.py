@@ -2,7 +2,11 @@ import sys
 assert sys.version_info >= (3, 5) # make sure we have Python 3.5+
 
 from pyspark.sql import SparkSession, functions, types
-from pyspark.ml import PipelineModel
+from pyspark.ml import Pipeline
+from pyspark.ml.feature import VectorAssembler, CountVectorizer
+from pyspark.ml.feature import StringIndexer
+from pyspark.ml.classification import NaiveBayes
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 import matplotlib.pyplot as plt
 
 
@@ -12,7 +16,7 @@ def rm_amp(x):
     x = x.replace("amp;", "")
     return x
 
-def main(model_file, inputs):
+def main(inputs, outputs):
     Amazon_Product_Review_Schema = types.StructType([
                                     types.StructField("Product_Asin", types.StringType()),
                                     types.StructField("Product_Brand", types.StringType()),
@@ -60,25 +64,46 @@ def main(model_file, inputs):
     data_reformat = data_reformat.withColumn("pd", functions.split(data["Product_Desc"], " "))
     data_reformat = data_reformat.withColumn("pb", functions.split(data["Product_Brand"], " "))
 
-    # data_reformat = data_reformat.select("pt", "pd", "Product_Main_Category")
     data_reformat = data_reformat.select("pt", "pd", "pb", "Product_Main_Category")
     data_reformat = data_reformat.cache()
     # data_reformat.show()
     
-    # load the model
-    model = PipelineModel.load(model_file)
-    
-    # use the model to make predictions
-    predictions = model.transform(data_reformat)
-    predictions.show()
+    train, validation, test = data_reformat.randomSplit([0.2, 0.2, 0.6])
+    train = train.cache()
+    validation = validation.cache()
+    test = test.cache()
+
+    cv_pt = CountVectorizer(inputCol="pt", outputCol="vectors_pt")
+    cv_pd = CountVectorizer(inputCol="pd", outputCol="vectors_pd")
+    cv_pb = CountVectorizer(inputCol="pb", outputCol="vectors_pb")
+    labelIndexer = StringIndexer(inputCol="Product_Main_Category", outputCol="label", handleInvalid="keep")
+    vecAssembler = VectorAssembler(inputCols=["vectors_pt", "vectors_pd", "vectors_pb"], outputCol="features", handleInvalid="keep")
+
+    # Train a naive Bayes model.
+    model = NaiveBayes()
+    pipeline = Pipeline(stages=[cv_pt, cv_pd, cv_pb, labelIndexer, vecAssembler, model])
+    model = pipeline.fit(train)
+
+    predictions = model.transform(train)
+
+    evaluator = MulticlassClassificationEvaluator(labelCol="label", predictionCol="prediction")
+    accuracy = evaluator.evaluate(predictions)
+    print ("Model Accuracy: ", accuracy)
+
+    predictions = model.transform(validation)
+
+    evaluator = MulticlassClassificationEvaluator(labelCol="label", predictionCol="prediction")
+    accuracy = evaluator.evaluate(predictions)
+    print ("Model Accuracy: ", accuracy)
 
     
+    model.write().overwrite().save(outputs)
 
 if __name__ == '__main__':
-    inputs = sys.argv[2]
-    model_file = sys.argv[1]
-    spark = SparkSession.builder.appName('category prediction').getOrCreate()
+    inputs = sys.argv[1]
+    outputs = sys.argv[2]
+    spark = SparkSession.builder.appName('category prediction train').getOrCreate()
     assert spark.version >= '3.0' # make sure we have Spark 3.0+
     spark.sparkContext.setLogLevel('WARN')
     sc = spark.sparkContext
-    main(model_file, inputs)
+    main(inputs, outputs)
