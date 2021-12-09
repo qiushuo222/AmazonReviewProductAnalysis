@@ -19,7 +19,7 @@ def rm_amp(x):
     x = x.replace("amp;", "")
     return x
 
-def main():
+def main(inputs):
     Amazon_Product_Review_Schema = types.StructType([
                                     types.StructField("Product_Asin", types.StringType()),
                                     types.StructField("Product_Brand", types.StringType()),
@@ -48,7 +48,7 @@ def main():
 
 
 
-    df_origin = spark.read.parquet("amazon", schema=Amazon_Product_Review_Schema)
+    df_origin = spark.read.parquet(inputs, schema=Amazon_Product_Review_Schema)
 
     data = df_origin.withColumn("Product_Main_Category_clean", rm_amp(df_origin["Product_Main_Category"]))
     data = data.drop(df_origin["Product_Main_Category"]).withColumnRenamed("Product_Main_Category_clean", "Product_Main_Category")
