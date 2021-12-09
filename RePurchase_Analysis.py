@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import re
 import datetime
 from pyspark import SparkConf, SparkContext
@@ -11,7 +12,7 @@ assert sys.version_info >= (3, 5)  # make sure we have Python 3.5+
 def main(input, output):
     ffolder = os.path.split(os.path.abspath(__file__))[0]
 
-    Amazon_Product_DF = spark.read.parquet(inputs)
+    Amazon_Product_DF = spark.read.parquet(input)
 
     Amazon_Product_DF = Amazon_Product_DF.withColumn(
         'Product_Main_Category', functions.regexp_replace("Product_Main_Category", '&amp;', '&'))
@@ -81,7 +82,9 @@ def main(input, output):
     compare_repurchase_pd = compare_repurchase.toPandas()
     fig = compare_repurchase_pd.plot.bar(
         x='Product_Main_Category', y='repurchase_ratio', linewidth=50, rot=70, figsize=(20, 10), title="Percentage of Repurchases in Each Category").get_figure()
-    fig.savefig(output + "repurchase_compare.png")
+    # fig.savefig(output + "repurchase_compare.png")
+    plt.subplots_adjust(bottom=0.3)
+    plt.savefig(output + "repurchase_compare.png")
 
 
 if __name__ == '__main__':
