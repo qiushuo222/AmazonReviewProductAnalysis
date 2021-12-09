@@ -151,7 +151,15 @@ OR for Instructors or TAs testing
 
 > \>spark-submit Category_Seasonal_Analysis.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
-It will create a new pie chart plot named Seasonal_Analysis_Pie_Chart in folder testdata shows the market share of each category in four seasons. Also, the training result of the model will be printed out in the terminal.
+It will create a new pie chart plot named Seasonal_Analysis_Pie_Chart in folder testdata shows the market share of each category in four seasons. The trained model will also be saved to ./testdata/ folder with name Category_Prediction_Model. Also, the training result of the model will be printed out in the terminal.
+
+To use the model for testing purpose, run:
+
+> \>spark-submit Category_Seasonal_Prediction.py ./testdata/Category_Prediction_Model ./testdata/Amazon_Product_Review_Parquet_Part_00000
+
+The prediction result will be shown in the terminal.
+
+P.S. The plot Seasonal_Analysis_Pie_Chart.png and trained model Category_Prediction_Model can be found at /home/sqa13/cmpt732_project_data/
 
 ## 4). Repurchase Rate Analysis
 
@@ -163,16 +171,27 @@ OR for Instructors or TAs testing
 
 It will create a plot named Repurchase_Rate in folder testdata shows the repurchase rate in each category.
 
+P.S. The plot Repurchase_Rate.png can be found at /home/sqa13/cmpt732_project_data/
 
 ## 5). Product Category Prediction
 
-> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=2g Category_Prediction.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=2g Category_Prediction_Train.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/category_prediction
 
 OR for Instructors or TAs testing
 
-> \>spark-submit Category_Prediction.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+> \>spark-submit Category_Prediction_Train.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/category_prediction
 
 It will train a model to predict which category the product belong to based on its title, description, and brand. The training result of the model will be printed out in the terminal.
+
+> \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=2g Category_Prediction.py ./testdata/category_prediction ./testdata/Amazon_Product_Review_Parquet_Part_00000
+
+OR for Instructors or TAs testing
+
+> \>spark-submit Category_Prediction.py ./testdata/category_prediction ./testdata/Amazon_Product_Review_Parquet_Part_00000
+
+It will appied the trained model to predict which category the product belong to based on its title, description, and brand. The predicting of the data will be printed out in the terminal.
+
+P.S. The trained model file is available in /home/sqa13/cmpt732_project_data/ on cluster.
 
 ## 6). Views Amount Analysis
 
@@ -184,7 +203,9 @@ OR for Instructors or TAs testing
 
 It will create plots named "Popularity of views pie", "Amount of views bar", "Popularity of products pie", and "Amount of products bar" in folder testdata shows the views amount in each category.
 
-## 7). Sales per Months Analysis 
+P.S. The plot "Amount of products bar.png", "Amount of views bar.png", "Popularity of products pie.png", and "Popularity of views pie.png" are available in /home/sqa13/cmpt732_project_data/ on cluster.
+
+## 7). Sales per Months Analysis
 
 > \>cd ~/home/bigdata/assignment/project/cmpt732/<br> >\>spark-submit --conf spark.driver.memory=3g Sales_Months_Analysis.py ./data/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
