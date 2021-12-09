@@ -173,7 +173,7 @@ P.S. The plot Repurchase_Rate.png can be found at /home/sqa13/cmpt732_project_da
 
 OR for Instructors or TAs testing
 
-> \>spark-submit Category_Prediction_Train.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/category_prediction
+> \>spark-submit --conf spark.driver.memory=6g Category_Prediction_Train.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/category_prediction
 
 It will train a model to predict which category the product belong to based on its title, description, and brand. The training result of the model will be printed out in the terminal.
 
@@ -181,7 +181,7 @@ It will train a model to predict which category the product belong to based on i
 
 OR for Instructors or TAs testing
 
-> \>spark-submit Category_Prediction.py ./testdata/category_prediction ./testdata/Amazon_Product_Review_Parquet_Part_00000
+> \>spark-submit --conf spark.driver.memory=6g Category_Prediction.py ./testdata/category_prediction ./testdata/Amazon_Product_Review_Parquet_Part_00000
 
 It will appied the trained model to predict which category the product belong to based on its title, description, and brand. The predicting of the data will be printed out in the terminal.
 
@@ -193,7 +193,7 @@ P.S. The trained model file is available in /home/sqa13/cmpt732_project_data/ on
 
 OR for Instructors or TAs testing
 
-> \>spark-submit Views_Count_Plot.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
+> \>spark-submit --conf spark.driver.memory=6g Views_Count_Plot.py ./testdata/Amazon_Product_Review_Parquet_Part_00000 ./testdata/
 
 It will create plots named "Popularity of views pie", "Amount of views bar", "Popularity of products pie", and "Amount of products bar" in folder testdata shows the views amount in each category.
 
